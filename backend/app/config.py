@@ -39,11 +39,11 @@ class Settings(BaseSettings):
     # --- Retrieval ---
     vector_store: VectorStoreKind = "chroma"
     embedding_model: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-    chunk_size: int = 800
-    chunk_overlap: int = 120
+    chunk_size: int = 300
+    chunk_overlap: int = 50
     top_k: int = 4
     # Below this cosine similarity, the best chunk is considered off-topic -> refusal.
-    min_relevance: float = 0.35
+    min_relevance: float = 0.38
     storage_dir: Path = BACKEND_DIR / "storage"
     collection_name: str = "knowledge"
 

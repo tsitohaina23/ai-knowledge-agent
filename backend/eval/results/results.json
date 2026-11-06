@@ -1,0 +1,1367 @@
+[
+  {
+    "config": "chroma | multilingual-MiniLM | chunk 300",
+    "store": "chroma",
+    "embedding": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "chunk_size": 300,
+    "chunks": 27,
+    "index_seconds": 3.096,
+    "hit_at_1": 0.812,
+    "hit_at_4": 0.938,
+    "mrr": 0.859,
+    "refusal_rate_out_of_corpus": 1.0,
+    "false_refusal_rate_in_corpus": 0.0,
+    "retrieval_ms_mean": 24.91,
+    "retrieval_ms_p95": 31.64,
+    "min_in_corpus_score": 0.415,
+    "max_out_of_corpus_score": 0.356,
+    "per_question": [
+      {
+        "id": "q01",
+        "rank": 2,
+        "pages": [
+          8,
+          1,
+          1,
+          8
+        ],
+        "best": 0.415
+      },
+      {
+        "id": "q02",
+        "rank": 1,
+        "pages": [
+          2,
+          8,
+          4,
+          3
+        ],
+        "best": 0.731
+      },
+      {
+        "id": "q03",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          2,
+          2
+        ],
+        "best": 0.637
+      },
+      {
+        "id": "q04",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          3,
+          2
+        ],
+        "best": 0.651
+      },
+      {
+        "id": "q05",
+        "rank": 4,
+        "pages": [
+          2,
+          3,
+          2,
+          4
+        ],
+        "best": 0.669
+      },
+      {
+        "id": "q06",
+        "rank": 1,
+        "pages": [
+          4,
+          6,
+          3,
+          6
+        ],
+        "best": 0.666
+      },
+      {
+        "id": "q07",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          8,
+          2
+        ],
+        "best": 0.507
+      },
+      {
+        "id": "q08",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          10,
+          5
+        ],
+        "best": 0.486
+      },
+      {
+        "id": "q09",
+        "rank": null,
+        "pages": [
+          3,
+          2,
+          2,
+          7
+        ],
+        "best": 0.599
+      },
+      {
+        "id": "q10",
+        "rank": 1,
+        "pages": [
+          6,
+          6,
+          4,
+          7
+        ],
+        "best": 0.511
+      },
+      {
+        "id": "q11",
+        "rank": 1,
+        "pages": [
+          7,
+          1,
+          3,
+          2
+        ],
+        "best": 0.813
+      },
+      {
+        "id": "q12",
+        "rank": 1,
+        "pages": [
+          7,
+          8,
+          4,
+          10
+        ],
+        "best": 0.715
+      },
+      {
+        "id": "q13",
+        "rank": 1,
+        "pages": [
+          8,
+          3,
+          4,
+          2
+        ],
+        "best": 0.672
+      },
+      {
+        "id": "q14",
+        "rank": 1,
+        "pages": [
+          9,
+          9,
+          4,
+          5
+        ],
+        "best": 0.49
+      },
+      {
+        "id": "q15",
+        "rank": 1,
+        "pages": [
+          10,
+          10,
+          1,
+          10
+        ],
+        "best": 0.62
+      },
+      {
+        "id": "q16",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          2,
+          9
+        ],
+        "best": 0.794
+      }
+    ]
+  },
+  {
+    "config": "faiss | multilingual-MiniLM | chunk 300",
+    "store": "faiss",
+    "embedding": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "chunk_size": 300,
+    "chunks": 27,
+    "index_seconds": 1.794,
+    "hit_at_1": 0.812,
+    "hit_at_4": 0.938,
+    "mrr": 0.859,
+    "refusal_rate_out_of_corpus": 1.0,
+    "false_refusal_rate_in_corpus": 0.0,
+    "retrieval_ms_mean": 16.37,
+    "retrieval_ms_p95": 20.0,
+    "min_in_corpus_score": 0.415,
+    "max_out_of_corpus_score": 0.356,
+    "per_question": [
+      {
+        "id": "q01",
+        "rank": 2,
+        "pages": [
+          8,
+          1,
+          1,
+          8
+        ],
+        "best": 0.415
+      },
+      {
+        "id": "q02",
+        "rank": 1,
+        "pages": [
+          2,
+          8,
+          4,
+          3
+        ],
+        "best": 0.731
+      },
+      {
+        "id": "q03",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          2,
+          2
+        ],
+        "best": 0.637
+      },
+      {
+        "id": "q04",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          3,
+          2
+        ],
+        "best": 0.651
+      },
+      {
+        "id": "q05",
+        "rank": 4,
+        "pages": [
+          2,
+          3,
+          2,
+          4
+        ],
+        "best": 0.669
+      },
+      {
+        "id": "q06",
+        "rank": 1,
+        "pages": [
+          4,
+          6,
+          3,
+          6
+        ],
+        "best": 0.666
+      },
+      {
+        "id": "q07",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          8,
+          2
+        ],
+        "best": 0.507
+      },
+      {
+        "id": "q08",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          10,
+          5
+        ],
+        "best": 0.486
+      },
+      {
+        "id": "q09",
+        "rank": null,
+        "pages": [
+          3,
+          2,
+          2,
+          7
+        ],
+        "best": 0.599
+      },
+      {
+        "id": "q10",
+        "rank": 1,
+        "pages": [
+          6,
+          6,
+          4,
+          7
+        ],
+        "best": 0.511
+      },
+      {
+        "id": "q11",
+        "rank": 1,
+        "pages": [
+          7,
+          1,
+          3,
+          2
+        ],
+        "best": 0.813
+      },
+      {
+        "id": "q12",
+        "rank": 1,
+        "pages": [
+          7,
+          8,
+          4,
+          10
+        ],
+        "best": 0.715
+      },
+      {
+        "id": "q13",
+        "rank": 1,
+        "pages": [
+          8,
+          3,
+          4,
+          2
+        ],
+        "best": 0.672
+      },
+      {
+        "id": "q14",
+        "rank": 1,
+        "pages": [
+          9,
+          9,
+          4,
+          5
+        ],
+        "best": 0.49
+      },
+      {
+        "id": "q15",
+        "rank": 1,
+        "pages": [
+          10,
+          10,
+          1,
+          10
+        ],
+        "best": 0.62
+      },
+      {
+        "id": "q16",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          2,
+          9
+        ],
+        "best": 0.794
+      }
+    ]
+  },
+  {
+    "config": "chroma | multilingual-MiniLM | chunk 500",
+    "store": "chroma",
+    "embedding": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "chunk_size": 500,
+    "chunks": 18,
+    "index_seconds": 2.737,
+    "hit_at_1": 0.625,
+    "hit_at_4": 0.938,
+    "mrr": 0.755,
+    "refusal_rate_out_of_corpus": 0.75,
+    "false_refusal_rate_in_corpus": 0.062,
+    "retrieval_ms_mean": 48.37,
+    "retrieval_ms_p95": 97.25,
+    "min_in_corpus_score": 0.333,
+    "max_out_of_corpus_score": 0.39,
+    "per_question": [
+      {
+        "id": "q01",
+        "rank": 2,
+        "pages": [
+          8,
+          1,
+          1,
+          7
+        ],
+        "best": 0.333
+      },
+      {
+        "id": "q02",
+        "rank": 1,
+        "pages": [
+          2,
+          4,
+          2,
+          8
+        ],
+        "best": 0.614
+      },
+      {
+        "id": "q03",
+        "rank": 4,
+        "pages": [
+          2,
+          2,
+          4,
+          3
+        ],
+        "best": 0.582
+      },
+      {
+        "id": "q04",
+        "rank": 2,
+        "pages": [
+          2,
+          3,
+          2,
+          4
+        ],
+        "best": 0.634
+      },
+      {
+        "id": "q05",
+        "rank": 3,
+        "pages": [
+          2,
+          3,
+          4,
+          2
+        ],
+        "best": 0.657
+      },
+      {
+        "id": "q06",
+        "rank": 1,
+        "pages": [
+          4,
+          6,
+          3,
+          7
+        ],
+        "best": 0.525
+      },
+      {
+        "id": "q07",
+        "rank": 2,
+        "pages": [
+          8,
+          5,
+          3,
+          2
+        ],
+        "best": 0.514
+      },
+      {
+        "id": "q08",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          10,
+          5
+        ],
+        "best": 0.577
+      },
+      {
+        "id": "q09",
+        "rank": null,
+        "pages": [
+          3,
+          2,
+          7,
+          8
+        ],
+        "best": 0.583
+      },
+      {
+        "id": "q10",
+        "rank": 1,
+        "pages": [
+          6,
+          1,
+          7,
+          5
+        ],
+        "best": 0.489
+      },
+      {
+        "id": "q11",
+        "rank": 1,
+        "pages": [
+          7,
+          3,
+          2,
+          4
+        ],
+        "best": 0.746
+      },
+      {
+        "id": "q12",
+        "rank": 1,
+        "pages": [
+          7,
+          8,
+          1,
+          7
+        ],
+        "best": 0.639
+      },
+      {
+        "id": "q13",
+        "rank": 1,
+        "pages": [
+          8,
+          3,
+          4,
+          2
+        ],
+        "best": 0.511
+      },
+      {
+        "id": "q14",
+        "rank": 1,
+        "pages": [
+          9,
+          7,
+          5,
+          4
+        ],
+        "best": 0.397
+      },
+      {
+        "id": "q15",
+        "rank": 1,
+        "pages": [
+          10,
+          5,
+          10,
+          5
+        ],
+        "best": 0.674
+      },
+      {
+        "id": "q16",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          4,
+          7
+        ],
+        "best": 0.762
+      }
+    ]
+  },
+  {
+    "config": "faiss | multilingual-MiniLM | chunk 500",
+    "store": "faiss",
+    "embedding": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "chunk_size": 500,
+    "chunks": 18,
+    "index_seconds": 2.795,
+    "hit_at_1": 0.625,
+    "hit_at_4": 0.938,
+    "mrr": 0.755,
+    "refusal_rate_out_of_corpus": 0.75,
+    "false_refusal_rate_in_corpus": 0.062,
+    "retrieval_ms_mean": 46.63,
+    "retrieval_ms_p95": 79.31,
+    "min_in_corpus_score": 0.333,
+    "max_out_of_corpus_score": 0.39,
+    "per_question": [
+      {
+        "id": "q01",
+        "rank": 2,
+        "pages": [
+          8,
+          1,
+          1,
+          7
+        ],
+        "best": 0.333
+      },
+      {
+        "id": "q02",
+        "rank": 1,
+        "pages": [
+          2,
+          4,
+          2,
+          8
+        ],
+        "best": 0.614
+      },
+      {
+        "id": "q03",
+        "rank": 4,
+        "pages": [
+          2,
+          2,
+          4,
+          3
+        ],
+        "best": 0.582
+      },
+      {
+        "id": "q04",
+        "rank": 2,
+        "pages": [
+          2,
+          3,
+          2,
+          4
+        ],
+        "best": 0.634
+      },
+      {
+        "id": "q05",
+        "rank": 3,
+        "pages": [
+          2,
+          3,
+          4,
+          2
+        ],
+        "best": 0.657
+      },
+      {
+        "id": "q06",
+        "rank": 1,
+        "pages": [
+          4,
+          6,
+          3,
+          7
+        ],
+        "best": 0.525
+      },
+      {
+        "id": "q07",
+        "rank": 2,
+        "pages": [
+          8,
+          5,
+          3,
+          2
+        ],
+        "best": 0.514
+      },
+      {
+        "id": "q08",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          10,
+          5
+        ],
+        "best": 0.577
+      },
+      {
+        "id": "q09",
+        "rank": null,
+        "pages": [
+          3,
+          2,
+          7,
+          8
+        ],
+        "best": 0.583
+      },
+      {
+        "id": "q10",
+        "rank": 1,
+        "pages": [
+          6,
+          1,
+          7,
+          5
+        ],
+        "best": 0.489
+      },
+      {
+        "id": "q11",
+        "rank": 1,
+        "pages": [
+          7,
+          3,
+          2,
+          4
+        ],
+        "best": 0.746
+      },
+      {
+        "id": "q12",
+        "rank": 1,
+        "pages": [
+          7,
+          8,
+          1,
+          7
+        ],
+        "best": 0.639
+      },
+      {
+        "id": "q13",
+        "rank": 1,
+        "pages": [
+          8,
+          3,
+          4,
+          2
+        ],
+        "best": 0.511
+      },
+      {
+        "id": "q14",
+        "rank": 1,
+        "pages": [
+          9,
+          7,
+          5,
+          4
+        ],
+        "best": 0.397
+      },
+      {
+        "id": "q15",
+        "rank": 1,
+        "pages": [
+          10,
+          5,
+          10,
+          5
+        ],
+        "best": 0.674
+      },
+      {
+        "id": "q16",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          4,
+          7
+        ],
+        "best": 0.762
+      }
+    ]
+  },
+  {
+    "config": "chroma | multilingual-MiniLM | chunk 800",
+    "store": "chroma",
+    "embedding": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "chunk_size": 800,
+    "chunks": 10,
+    "index_seconds": 1.243,
+    "hit_at_1": 0.625,
+    "hit_at_4": 1.0,
+    "mrr": 0.786,
+    "refusal_rate_out_of_corpus": 0.75,
+    "false_refusal_rate_in_corpus": 0.062,
+    "retrieval_ms_mean": 19.47,
+    "retrieval_ms_p95": 23.57,
+    "min_in_corpus_score": 0.333,
+    "max_out_of_corpus_score": 0.398,
+    "per_question": [
+      {
+        "id": "q01",
+        "rank": 2,
+        "pages": [
+          8,
+          1,
+          7,
+          4
+        ],
+        "best": 0.333
+      },
+      {
+        "id": "q02",
+        "rank": 1,
+        "pages": [
+          2,
+          4,
+          8,
+          3
+        ],
+        "best": 0.606
+      },
+      {
+        "id": "q03",
+        "rank": 2,
+        "pages": [
+          2,
+          3,
+          4,
+          8
+        ],
+        "best": 0.593
+      },
+      {
+        "id": "q04",
+        "rank": 2,
+        "pages": [
+          2,
+          3,
+          4,
+          6
+        ],
+        "best": 0.563
+      },
+      {
+        "id": "q05",
+        "rank": 3,
+        "pages": [
+          2,
+          3,
+          4,
+          9
+        ],
+        "best": 0.668
+      },
+      {
+        "id": "q06",
+        "rank": 1,
+        "pages": [
+          4,
+          6,
+          3,
+          8
+        ],
+        "best": 0.558
+      },
+      {
+        "id": "q07",
+        "rank": 2,
+        "pages": [
+          8,
+          5,
+          4,
+          3
+        ],
+        "best": 0.514
+      },
+      {
+        "id": "q08",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          10,
+          9
+        ],
+        "best": 0.44
+      },
+      {
+        "id": "q09",
+        "rank": 4,
+        "pages": [
+          3,
+          2,
+          8,
+          6
+        ],
+        "best": 0.578
+      },
+      {
+        "id": "q10",
+        "rank": 1,
+        "pages": [
+          6,
+          7,
+          10,
+          4
+        ],
+        "best": 0.502
+      },
+      {
+        "id": "q11",
+        "rank": 1,
+        "pages": [
+          7,
+          3,
+          2,
+          1
+        ],
+        "best": 0.637
+      },
+      {
+        "id": "q12",
+        "rank": 1,
+        "pages": [
+          7,
+          8,
+          5,
+          10
+        ],
+        "best": 0.671
+      },
+      {
+        "id": "q13",
+        "rank": 1,
+        "pages": [
+          8,
+          3,
+          4,
+          2
+        ],
+        "best": 0.511
+      },
+      {
+        "id": "q14",
+        "rank": 1,
+        "pages": [
+          9,
+          4,
+          1,
+          7
+        ],
+        "best": 0.397
+      },
+      {
+        "id": "q15",
+        "rank": 1,
+        "pages": [
+          10,
+          5,
+          8,
+          7
+        ],
+        "best": 0.662
+      },
+      {
+        "id": "q16",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          4,
+          8
+        ],
+        "best": 0.761
+      }
+    ]
+  },
+  {
+    "config": "faiss | multilingual-MiniLM | chunk 800",
+    "store": "faiss",
+    "embedding": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "chunk_size": 800,
+    "chunks": 10,
+    "index_seconds": 0.909,
+    "hit_at_1": 0.625,
+    "hit_at_4": 1.0,
+    "mrr": 0.786,
+    "refusal_rate_out_of_corpus": 0.75,
+    "false_refusal_rate_in_corpus": 0.062,
+    "retrieval_ms_mean": 21.43,
+    "retrieval_ms_p95": 29.05,
+    "min_in_corpus_score": 0.333,
+    "max_out_of_corpus_score": 0.398,
+    "per_question": [
+      {
+        "id": "q01",
+        "rank": 2,
+        "pages": [
+          8,
+          1,
+          7,
+          4
+        ],
+        "best": 0.333
+      },
+      {
+        "id": "q02",
+        "rank": 1,
+        "pages": [
+          2,
+          4,
+          8,
+          3
+        ],
+        "best": 0.606
+      },
+      {
+        "id": "q03",
+        "rank": 2,
+        "pages": [
+          2,
+          3,
+          4,
+          8
+        ],
+        "best": 0.593
+      },
+      {
+        "id": "q04",
+        "rank": 2,
+        "pages": [
+          2,
+          3,
+          4,
+          6
+        ],
+        "best": 0.563
+      },
+      {
+        "id": "q05",
+        "rank": 3,
+        "pages": [
+          2,
+          3,
+          4,
+          9
+        ],
+        "best": 0.668
+      },
+      {
+        "id": "q06",
+        "rank": 1,
+        "pages": [
+          4,
+          6,
+          3,
+          8
+        ],
+        "best": 0.558
+      },
+      {
+        "id": "q07",
+        "rank": 2,
+        "pages": [
+          8,
+          5,
+          4,
+          3
+        ],
+        "best": 0.514
+      },
+      {
+        "id": "q08",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          10,
+          9
+        ],
+        "best": 0.44
+      },
+      {
+        "id": "q09",
+        "rank": 4,
+        "pages": [
+          3,
+          2,
+          8,
+          6
+        ],
+        "best": 0.578
+      },
+      {
+        "id": "q10",
+        "rank": 1,
+        "pages": [
+          6,
+          7,
+          10,
+          4
+        ],
+        "best": 0.502
+      },
+      {
+        "id": "q11",
+        "rank": 1,
+        "pages": [
+          7,
+          3,
+          2,
+          1
+        ],
+        "best": 0.637
+      },
+      {
+        "id": "q12",
+        "rank": 1,
+        "pages": [
+          7,
+          8,
+          5,
+          10
+        ],
+        "best": 0.671
+      },
+      {
+        "id": "q13",
+        "rank": 1,
+        "pages": [
+          8,
+          3,
+          4,
+          2
+        ],
+        "best": 0.511
+      },
+      {
+        "id": "q14",
+        "rank": 1,
+        "pages": [
+          9,
+          4,
+          1,
+          7
+        ],
+        "best": 0.397
+      },
+      {
+        "id": "q15",
+        "rank": 1,
+        "pages": [
+          10,
+          5,
+          8,
+          7
+        ],
+        "best": 0.662
+      },
+      {
+        "id": "q16",
+        "rank": 1,
+        "pages": [
+          3,
+          2,
+          4,
+          8
+        ],
+        "best": 0.761
+      }
+    ]
+  },
+  {
+    "config": "chroma | bge-small-en | chunk 800",
+    "store": "chroma",
+    "embedding": "BAAI/bge-small-en-v1.5",
+    "chunk_size": 800,
+    "chunks": 10,
+    "index_seconds": 1.9,
+    "hit_at_1": 0.438,
+    "hit_at_4": 0.812,
+    "mrr": 0.573,
+    "refusal_rate_out_of_corpus": 0.0,
+    "false_refusal_rate_in_corpus": 0.0,
+    "retrieval_ms_mean": 24.06,
+    "retrieval_ms_p95": 32.39,
+    "min_in_corpus_score": 0.628,
+    "max_out_of_corpus_score": 0.623,
+    "per_question": [
+      {
+        "id": "q01",
+        "rank": null,
+        "pages": [
+          7,
+          8,
+          2,
+          3
+        ],
+        "best": 0.689
+      },
+      {
+        "id": "q02",
+        "rank": 1,
+        "pages": [
+          2,
+          9,
+          5,
+          8
+        ],
+        "best": 0.669
+      },
+      {
+        "id": "q03",
+        "rank": null,
+        "pages": [
+          2,
+          8,
+          9,
+          6
+        ],
+        "best": 0.643
+      },
+      {
+        "id": "q04",
+        "rank": 3,
+        "pages": [
+          2,
+          4,
+          3,
+          6
+        ],
+        "best": 0.698
+      },
+      {
+        "id": "q05",
+        "rank": 4,
+        "pages": [
+          2,
+          3,
+          9,
+          4
+        ],
+        "best": 0.742
+      },
+      {
+        "id": "q06",
+        "rank": 1,
+        "pages": [
+          4,
+          5,
+          7,
+          8
+        ],
+        "best": 0.647
+      },
+      {
+        "id": "q07",
+        "rank": 3,
+        "pages": [
+          2,
+          9,
+          5,
+          8
+        ],
+        "best": 0.747
+      },
+      {
+        "id": "q08",
+        "rank": 1,
+        "pages": [
+          5,
+          8,
+          9,
+          6
+        ],
+        "best": 0.708
+      },
+      {
+        "id": "q09",
+        "rank": 2,
+        "pages": [
+          2,
+          6,
+          1,
+          8
+        ],
+        "best": 0.749
+      },
+      {
+        "id": "q10",
+        "rank": 1,
+        "pages": [
+          6,
+          7,
+          5,
+          4
+        ],
+        "best": 0.686
+      },
+      {
+        "id": "q11",
+        "rank": 1,
+        "pages": [
+          7,
+          2,
+          3,
+          8
+        ],
+        "best": 0.744
+      },
+      {
+        "id": "q12",
+        "rank": 1,
+        "pages": [
+          7,
+          8,
+          5,
+          6
+        ],
+        "best": 0.801
+      },
+      {
+        "id": "q13",
+        "rank": 4,
+        "pages": [
+          2,
+          4,
+          6,
+          8
+        ],
+        "best": 0.673
+      },
+      {
+        "id": "q14",
+        "rank": null,
+        "pages": [
+          2,
+          8,
+          5,
+          7
+        ],
+        "best": 0.643
+      },
+      {
+        "id": "q15",
+        "rank": 1,
+        "pages": [
+          10,
+          5,
+          7,
+          8
+        ],
+        "best": 0.675
+      },
+      {
+        "id": "q16",
+        "rank": 2,
+        "pages": [
+          2,
+          3,
+          1,
+          6
+        ],
+        "best": 0.628
+      }
+    ]
+  }
+]

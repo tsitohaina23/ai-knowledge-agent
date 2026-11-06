@@ -1,0 +1,31 @@
+Indexed guide-employe-ravinala.pdf: 10 pages, 27 chunks
+
+Q: Combien de jours de congés payés par an ?
+   refused=False pages=[3, 2, 3, 2] latency=211.75 ms tokens=0 cached=False
+   Mode extraits (sans LLM) : phrases les plus pertinentes du document.
+   - Chaque salarié bénéficie de 30 jours ouvrables de congés payés par an, acquis à raison de 2,5 jours par mois de travail effectif. [p. 3]
+
+Q: Combien de jours de télétravail par semaine sont autorisés ?
+   refused=False pages=[4, 2, 2, 3] latency=262.74 ms tokens=0 cached=False
+   Mode extraits (sans LLM) : phrases les plus pertinentes du document.
+   - Les jours de télétravail sont déclarés le vendredi pour la semaine suivante dans le portail Kolo. [p. 4]
+
+Q: Quel est le plafond de remboursement d'un repas d'affaires ?
+   refused=False pages=[6, 6, 2, 3] latency=229.2 ms tokens=0 cached=False
+   Mode extraits (sans LLM) : phrases les plus pertinentes du document.
+   - Le plafond de remboursement d'un repas d'affaires est de 60 000 Ariary par personne. [p. 6]
+
+Q: Quelle est la longueur minimale d'un mot de passe ?
+   refused=False pages=[5, 8, 8, 3] latency=271.65 ms tokens=0 cached=False
+   Mode extraits (sans LLM) : phrases les plus pertinentes du document.
+   - Les mots de passe doivent comporter au moins 14 caractères et ne jamais être réutilisés entre plusieurs services. [p. 5]
+
+Q: Quel numéro appeler en cas d'urgence dans les locaux ?
+   refused=False pages=[9, 9, 5, 2] latency=183.15 ms tokens=0 cached=False
+   Mode extraits (sans LLM) : phrases les plus pertinentes du document.
+   - En cas d'urgence dans les locaux, composer le poste interne 4400, joignable 24 h/24. [p. 9]
+
+Q: Quelle est la capitale du Japon ?
+   refused=True pages=[] latency=19.87 ms tokens=0 cached=False
+   Je ne trouve pas cette information dans les documents indexés. / I could not find this information in the indexed documents.
+

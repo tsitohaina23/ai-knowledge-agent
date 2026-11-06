@@ -1,0 +1,28 @@
+{
+  "document": "samples/guide-employe-ravinala.pdf",
+  "note": "Questions are paraphrased on purpose (not copied from the text) so retrieval cannot rely on exact wording. expected_pages are 1-based PDF pages.",
+  "in_corpus": [
+    {"id": "q01", "question": "En quelle année l'entreprise a-t-elle été créée ?", "expected_pages": [1]},
+    {"id": "q02", "question": "Pendant quelle tranche horaire faut-il obligatoirement être disponible ?", "expected_pages": [2]},
+    {"id": "q03", "question": "Quel délai faut-il respecter pour poser ses vacances ?", "expected_pages": [3]},
+    {"id": "q04", "question": "Jusqu'à quand peut-on utiliser les jours de repos non consommés ?", "expected_pages": [3]},
+    {"id": "q05", "question": "Combien de jours par semaine peut-on travailler depuis chez soi ?", "expected_pages": [4]},
+    {"id": "q06", "question": "Quel montant est versé chaque mois pour couvrir internet et l'électricité à domicile ?", "expected_pages": [4]},
+    {"id": "q07", "question": "Après combien de temps sans activité l'ordinateur se verrouille-t-il tout seul ?", "expected_pages": [5]},
+    {"id": "q08", "question": "À qui signaler un courriel suspect ou la perte d'un ordinateur ?", "expected_pages": [5]},
+    {"id": "q09", "question": "Combien de temps ai-je pour déclarer une dépense professionnelle ?", "expected_pages": [6]},
+    {"id": "q10", "question": "Qui doit approuver un achat de plus de 500 000 Ariary ?", "expected_pages": [6]},
+    {"id": "q11", "question": "Quel est le budget annuel consacré à la formation de chaque employé ?", "expected_pages": [7]},
+    {"id": "q12", "question": "Combien de fois peut-on passer un examen de certification cloud aux frais de l'entreprise ?", "expected_pages": [7]},
+    {"id": "q13", "question": "Combien de temps dure la période d'essai ?", "expected_pages": [8]},
+    {"id": "q14", "question": "Où se regrouper lors d'une alerte incendie ?", "expected_pages": [9]},
+    {"id": "q15", "question": "Ai-je le droit de mettre des informations clients dans un chatbot d'IA ?", "expected_pages": [10]},
+    {"id": "q16", "question": "How many days of paid leave do employees get per year?", "expected_pages": [3]}
+  ],
+  "out_of_corpus": [
+    {"id": "o01", "question": "Quelle est la capitale du Japon ?"},
+    {"id": "o02", "question": "Comment configurer un cluster Kubernetes ?"},
+    {"id": "o03", "question": "Quel est le prix d'un billet d'avion pour Paris ?"},
+    {"id": "o04", "question": "Who won the football world cup in 1998?"}
+  ]
+}
