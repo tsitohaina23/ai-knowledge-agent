@@ -194,7 +194,7 @@ Ce qu'on en retient :
 Le mode extraits a aussi été vérifié de bout en bout sur 5 questions et 1 question hors sujet
 ([`demo_extractive.txt`](backend/eval/results/demo_extractive.txt)).
 
-### Limites (honnêtement)
+### Limites
 
 - **Petit jeu d'évaluation** (20 questions, un seul document). Le seuil `MIN_RELEVANCE = 0,38`
   a été choisi sur ce même jeu, sans jeu de validation séparé : les chiffres sont indicatifs.
