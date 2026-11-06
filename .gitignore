@@ -1,0 +1,31 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+.ven
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+backend/.env/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Runtime data
+chroma_db/
+faiss_index/
+backend/storage/
+uploads/
+
+# Node
+node_modules/
+dist/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
