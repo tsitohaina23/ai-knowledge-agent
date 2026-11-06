@@ -1,0 +1,22 @@
+# --- API ---
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+pydantic>=2.7
+pydantic-settings>=2.3
+python-dotenv>=1.0
+
+# --- RAG orchestration (LangChain) ---
+langchain-core>=0.3
+langchain-community>=0.3
+langchain-text-splitters>=0.3
+langchain-chroma>=0.2
+pypdf>=4.0
+
+# --- Embeddings & vector stores ---
+fastembed>=0.4
+chromadb>=0.5
+faiss-cpu>=1.8
+
+# --- Local LLM (optional, open source, free): Ollama ---
+langchain-ollama>=0.2
