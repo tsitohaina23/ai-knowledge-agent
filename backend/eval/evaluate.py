@@ -77,6 +77,8 @@ def run(cfg: Config, data: dict, k: int, min_relevance: float, embeddings_cache:
         )
         pipe = RAGPipeline(settings, embeddings=emb, use_llm_from_settings=False)
         ing = pipe.ingest_pdf(HERE.parent / data["document"])
+        for _ in range(3):  # warm-up so the first configuration is not penalised
+            pipe.retrieve("warm-up query", k)
 
         hits1 = hitsk = 0
         rr: list[float] = []
