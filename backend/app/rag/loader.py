@@ -34,9 +34,7 @@ def load_pdf(path: Path, source_name: str | None = None) -> list[Document]:
     return docs
 
 
-def split_documents(
-    docs: list[Document], chunk_size: int = 800, chunk_overlap: int = 120
-) -> list[Document]:
+def split_documents(docs: list[Document], chunk_size: int = 800, chunk_overlap: int = 120) -> list[Document]:
     """Split pages into overlapping chunks; each chunk keeps its page number.
 
     A deterministic `chunk_id` (hash of source, page and text) makes re-ingesting the

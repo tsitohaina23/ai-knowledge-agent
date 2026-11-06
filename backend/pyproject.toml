@@ -1,0 +1,20 @@
+[project]
+name = "ai-knowledge-agent"
+version = "1.0.0"
+description = "Local RAG API over PDFs: LangChain, ChromaDB/FAISS, FastEmbed, FastAPI, optional Ollama"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+extend-exclude = [".env", "storage"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["B008"]  # FastAPI Depends()/File() in defaults is idiomatic

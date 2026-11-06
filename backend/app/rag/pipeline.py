@@ -78,9 +78,7 @@ class RAGPipeline:
         self.index = index or build_index(
             settings.vector_store, self.embeddings, settings.storage_dir, settings.collection_name
         )
-        self.llm = llm if llm is not None else (
-            build_chat_model(settings) if use_llm_from_settings else None
-        )
+        self.llm = llm if llm is not None else (build_chat_model(settings) if use_llm_from_settings else None)
         self.provider = "custom" if llm is not None else settings.llm_provider
         self.model = settings.resolved_model if llm is None else getattr(llm, "model", "custom")
         self.cache = TTLCache(settings.cache_max_entries, settings.cache_ttl_s)
@@ -134,8 +132,11 @@ class RAGPipeline:
             return replace(
                 cached,
                 cached=True,
-                latency_ms={"retrieval": 0.0, "generation": 0.0,
-                            "total": round((time.perf_counter() - t0) * 1000, 2)},
+                latency_ms={
+                    "retrieval": 0.0,
+                    "generation": 0.0,
+                    "total": round((time.perf_counter() - t0) * 1000, 2),
+                },
                 tokens={"input": 0, "output": 0, "total": 0},  # nothing was generated
             )
 

@@ -49,7 +49,6 @@ class Settings(BaseSettings):
 
     # --- API / security ---
     max_upload_mb: int = 20
-    max_question_chars: int = 500
     rate_limit_ask_per_min: int = 20
     rate_limit_ingest_per_min: int = 5
     cache_ttl_s: int = 3600

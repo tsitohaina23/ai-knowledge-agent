@@ -51,9 +51,11 @@ class ChromaIndex:
     def add(self, chunks: list[Document]) -> int:
         if not chunks:
             return 0
-        ids = [c.metadata["chunk_id"] for c in chunks]
-        self._db.add_documents(chunks, ids=ids)  # upsert: re-ingestion is idempotent
-        return len(chunks)
+        existing = set(self._db.get(ids=[c.metadata["chunk_id"] for c in chunks])["ids"])
+        new = [c for c in chunks if c.metadata["chunk_id"] not in existing]
+        if new:  # re-ingesting the same file adds nothing
+            self._db.add_documents(new, ids=[c.metadata["chunk_id"] for c in new])
+        return len(new)
 
     def search(self, query: str, k: int) -> list[ScoredDoc]:
         if self.count() == 0:
@@ -83,9 +85,7 @@ class FaissIndex:
             from langchain_community.vectorstores import FAISS
 
             # The pickle docstore was written by this app itself (never load untrusted files).
-            self._db = FAISS.load_local(
-                str(directory), embeddings, allow_dangerous_deserialization=True
-            )
+            self._db = FAISS.load_local(str(directory), embeddings, allow_dangerous_deserialization=True)
 
     def _new(self, chunks: list[Document], ids: list[str]):
         from langchain_community.vectorstores import FAISS

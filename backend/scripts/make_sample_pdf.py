@@ -113,8 +113,7 @@ PAGES: list[tuple[str, list[str]]] = [
             "trois premiers mois.",
             "Le premier jour, le salarié reçoit son ordinateur portable, son badge d'accès et "
             "ses identifiants. Une session de présentation de l'entreprise a lieu à 10h00.",
-            "La période d'essai est de 3 mois, renouvelable une fois après accord écrit des "
-            "deux parties.",
+            "La période d'essai est de 3 mois, renouvelable une fois après accord écrit des deux parties.",
             "Un point d'étape formel avec le manager est organisé à la fin du premier mois.",
         ],
     ),

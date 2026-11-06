@@ -43,6 +43,7 @@ _TAG = re.compile(r"</?\s*(source|sources|system|instructions?)\b[^>]*>", re.IGN
 _INJECTION = re.compile(
     r"(ignore|disregard|oublie|ignorez?)\s+(all\s+|toutes?\s+)?(the\s+|les\s+)?"
     r"(previous|prior|above|pr[ée]c[ée]dentes?)\s+(instructions?|consignes?)"
+    r"|(ignore|oublie|ignorez?)\s+(toutes?\s+)?(les\s+)?(instructions?|consignes?)"
     r"|you\s+are\s+now|tu\s+es\s+maintenant|system\s*prompt|reveal\s+your",
     re.IGNORECASE,
 )
