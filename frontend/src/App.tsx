@@ -1,17 +1,73 @@
-import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import {
+  ask,
+  getHealth,
+  ingestSample,
+  uploadWithProgress,
+  type AskResponse,
+  type Health,
+} from './api';
 
 interface Message {
   id: string;
   question: string;
-  answer: string;
+  result?: AskResponse;
+  error?: string;
   isCollapsed: boolean;
   isEditing: boolean;
 }
 
-const BACKEND_URL = "http://localhost:8000";
+const EXAMPLES = [
+  'Combien de jours de congés payés par an ?',
+  "Quel est le plafond de remboursement d'un repas d'affaires ?",
+  'Quelle est la capitale du Japon ?',
+];
+
+function SourceList({ result }: { result: AskResponse }) {
+  if (result.sources.length === 0) return null;
+  return (
+    <details className="mt-2 text-xs text-gray-600">
+      <summary className="cursor-pointer select-none">
+        Sources ({result.sources.length}) : pages{' '}
+        {[...new Set(result.sources.map((s) => s.page))].join(', ')}
+      </summary>
+      <ul className="mt-2 space-y-2">
+        {result.sources.map((s) => (
+          <li key={s.n} className="rounded border border-gray-200 bg-white p-2">
+            <div className="font-semibold text-gray-700">
+              [{s.n}] {s.source} · p. {s.page} · similarité {s.score.toFixed(2)}
+            </div>
+            <div className="mt-1 text-gray-600">{s.excerpt}</div>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
+function Metrics({ result }: { result: AskResponse }) {
+  return (
+    <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-gray-500">
+      <span className="rounded bg-gray-100 px-2 py-0.5">{result.latency_ms.total.toFixed(0)} ms</span>
+      <span className="rounded bg-gray-100 px-2 py-0.5">{result.tokens.total} tokens</span>
+      <span className="rounded bg-gray-100 px-2 py-0.5">
+        {result.provider === 'none' ? 'mode extraits (sans LLM)' : `${result.provider} · ${result.model}`}
+      </span>
+      <span className="rounded bg-gray-100 px-2 py-0.5">coût 0 $ (local)</span>
+      {result.cached && <span className="rounded bg-amber-100 px-2 py-0.5 text-amber-800">cache</span>}
+      {result.warnings.map((w) => (
+        <span key={w} className="rounded bg-red-100 px-2 py-0.5 text-red-700">
+          {w}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export default function App() {
+  const [health, setHealth] = useState<Health | null>(null);
+  const [backendError, setBackendError] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<string>('');
   const [progress, setProgress] = useState<number>(0);
@@ -19,246 +75,246 @@ export default function App() {
   const [inputQuestion, setInputQuestion] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  const refreshHealth = useCallback(async () => {
+    try {
+      setHealth(await getHealth());
+      setBackendError('');
+    } catch {
+      setBackendError('Backend injoignable : lancez « uvicorn app.main:app » dans backend/.');
+    }
+  }, []);
+
+  useEffect(() => {
+    void refreshHealth();
+  }, [refreshHealth]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) setFile(e.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!file) return;
+    setIsUploading(true);
+    setProgress(0);
+    setUploadStatus('Envoi du fichier au serveur...');
+    try {
+      await uploadWithProgress(file, (pct, msg) => {
+        setProgress(pct);
+        setUploadStatus(msg);
+      });
+    } catch (err) {
+      setUploadStatus(`Erreur : ${(err as Error).message}`);
+    } finally {
+      setIsUploading(false);
+      void refreshHealth();
     }
   };
 
-  const handleUploadWithProgress = async () => {
-    if (!file) return;
-
+  const handleSample = async () => {
     setIsUploading(true);
-    setProgress(0);
-    setUploadStatus("Envoi du fichier au serveur...");
-
-    const formData = new FormData();
-    formData.append("file", file);
-
+    setUploadStatus("Indexation du PDF d'exemple...");
     try {
-      const response = await fetch(`${BACKEND_URL}/upload-stream`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.body) return;
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-
-        const text = decoder.decode(value);
-        const lines = text.split("\n\n");
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = JSON.parse(line.replace("data: ", ""));
-            if (data.progress !== undefined) {
-              setProgress(data.progress);
-              setUploadStatus(data.message);
-            }
-            if (data.error) {
-              setUploadStatus(`Erreur : ${data.error}`);
-            }
-          }
-        }
-      }
+      const r = await ingestSample();
+      setUploadStatus(`${r.source} : ${r.pages} pages, ${r.chunks} blocs indexés en ${r.seconds} s.`);
     } catch (err) {
-      setUploadStatus("Erreur lors de l'indexation du document.");
+      setUploadStatus(`Erreur : ${(err as Error).message}`);
     } finally {
       setIsUploading(false);
+      void refreshHealth();
     }
   };
 
   const sendQuestion = async (questionText: string, messageIdToReplace?: string) => {
-    if (!questionText.trim()) return;
+    if (!questionText.trim() || loading) return;
     setLoading(true);
-
+    let result: AskResponse | undefined;
+    let error: string | undefined;
     try {
-      const res = await axios.post(`${BACKEND_URL}/chat`, { question: questionText });
-      const newAnswer = res.data.answer;
-
-      if (messageIdToReplace) {
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === messageIdToReplace
-              ? { ...m, question: questionText, answer: newAnswer, isEditing: false, isCollapsed: false }
-              : m
-          )
-        );
-      } else {
-        setMessages((prev) => [
-          ...prev.map((m) => ({ ...m, isCollapsed: true })),
-          {
-            id: Date.now().toString(),
-            question: questionText,
-            answer: newAnswer,
-            isCollapsed: false,
-            isEditing: false,
-          },
-        ]);
-        setInputQuestion('');
-      }
+      result = await ask(questionText);
     } catch (err) {
-      alert("Erreur de communication avec le serveur.");
-    } finally {
-      setLoading(false);
+      error = (err as Error).message;
     }
+    if (messageIdToReplace) {
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === messageIdToReplace
+            ? { ...m, question: questionText, result, error, isEditing: false, isCollapsed: false }
+            : m,
+        ),
+      );
+    } else {
+      setMessages((prev) => [
+        ...prev.map((m) => ({ ...m, isCollapsed: true })),
+        { id: Date.now().toString(), question: questionText, result, error, isCollapsed: false, isEditing: false },
+      ]);
+      setInputQuestion('');
+    }
+    setLoading(false);
   };
 
-  const toggleCollapse = (id: string) => {
-    setMessages((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, isCollapsed: !m.isCollapsed } : m))
-    );
-  };
-
-  const toggleEdit = (id: string) => {
-    setMessages((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, isEditing: !m.isEditing } : m))
-    );
-  };
+  const toggle = (id: string, key: 'isCollapsed' | 'isEditing') =>
+    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, [key]: !m[key] } : m)));
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6 font-sans">
-      <div className="w-full max-w-3xl bg-white rounded-xl shadow-md p-6 space-y-6">
-        <h1 className="text-2xl font-bold text-center text-gray-800">
-          RAG Knowledge Assistant
-        </h1>
+    <div className="flex min-h-screen flex-col items-center p-4 sm:p-6">
+      <div className="w-full max-w-3xl space-y-5 rounded-xl bg-white p-5 shadow-md sm:p-6">
+        <header className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800">AI Knowledge Agent</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Posez des questions sur vos PDF : réponses avec pages sources, 100 % local.
+          </p>
+          {health && (
+            <p className="mt-2 text-xs text-gray-500">
+              {health.vector_store} · {health.indexed_chunks} blocs indexés ·{' '}
+              {health.provider === 'none' ? 'mode extraits' : `${health.provider} (${health.model})`}
+            </p>
+          )}
+          {backendError && <p className="mt-2 text-xs font-medium text-red-600">{backendError}</p>}
+        </header>
 
-        {/* Importation PDF avec Barre de Progression */}
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center bg-gray-50">
-          <h2 className="font-semibold text-gray-700 mb-2">1. Importer un Document PDF</h2>
-          <div className="flex items-center justify-center space-x-3 mb-3">
+        <section className="rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 text-center">
+          <h2 className="mb-2 font-semibold text-gray-700">1. Importer un document PDF</h2>
+          <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
             <input
               type="file"
               accept=".pdf"
               onChange={handleFileChange}
               disabled={isUploading}
-              className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              className="text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 hover:file:bg-blue-100"
             />
             <button
-              onClick={handleUploadWithProgress}
+              onClick={handleUpload}
               disabled={isUploading || !file}
-              className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 text-sm font-medium disabled:opacity-50"
+              className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
             >
               Charger le PDF
             </button>
+            <button
+              onClick={handleSample}
+              disabled={isUploading}
+              className="rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+            >
+              Utiliser le PDF d'exemple
+            </button>
           </div>
-
-          {/* Barre de Progression Visualisée */}
-          {isUploading && (
+          {isUploading && progress > 0 && (
             <div className="w-full space-y-1">
-              <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                <div
-                  className="bg-blue-600 h-3 transition-all duration-200 ease-out"
-                  style={{ width: `${progress}%` }}
-                ></div>
+              <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
+                <div className="h-3 bg-blue-600 transition-all duration-200 ease-out" style={{ width: `${progress}%` }} />
               </div>
-              <div className="text-xs text-blue-600 font-bold text-right">{progress}%</div>
+              <div className="text-right text-xs font-bold text-blue-600">{progress}%</div>
+            </div>
+          )}
+          {uploadStatus && <p className="mt-2 text-xs font-medium text-blue-800">{uploadStatus}</p>}
+        </section>
+
+        <section className="max-h-[520px] space-y-4 overflow-y-auto pr-1">
+          {messages.length === 0 && (
+            <div className="flex flex-wrap justify-center gap-2">
+              {EXAMPLES.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => sendQuestion(q)}
+                  className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs text-blue-800 hover:bg-blue-100"
+                >
+                  {q}
+                </button>
+              ))}
             </div>
           )}
 
-          {uploadStatus && (
-            <p className="mt-2 text-xs text-blue-800 font-medium">{uploadStatus}</p>
-          )}
-        </div>
-
-        {/* Historique du Chat */}
-        <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
           {messages.map((item) => (
-            <div key={item.id} className="border rounded-lg p-4 bg-white shadow-sm space-y-2">
-              <div className="flex justify-between items-start bg-blue-50 p-3 rounded-md">
+            <div key={item.id} className="space-y-2 rounded-lg border bg-white p-4 shadow-sm">
+              <div className="flex items-start justify-between rounded-md bg-blue-50 p-3">
                 {item.isEditing ? (
-                  <div className="w-full flex space-x-2">
-                    <input
-                      type="text"
-                      defaultValue={item.question}
-                      id={`edit-input-${item.id}`}
-                      className="w-full border rounded p-1 text-sm"
-                    />
-                    <button
-                      onClick={() => {
-                        const inputEl = document.getElementById(`edit-input-${item.id}`) as HTMLInputElement;
-                        if (inputEl) sendQuestion(inputEl.value, item.id);
-                      }}
-                      className="bg-green-600 text-white px-3 py-1 rounded text-xs"
-                    >
+                  <form
+                    className="flex w-full gap-2"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const value = new FormData(e.currentTarget).get('q');
+                      if (typeof value === 'string') void sendQuestion(value, item.id);
+                    }}
+                  >
+                    <input name="q" type="text" defaultValue={item.question} className="w-full rounded border p-1 text-sm" />
+                    <button type="submit" className="rounded bg-green-600 px-3 py-1 text-xs text-white">
                       Enregistrer
                     </button>
-                    <button
-                      onClick={() => toggleEdit(item.id)}
-                      className="bg-gray-400 text-white px-2 py-1 rounded text-xs"
-                    >
+                    <button type="button" onClick={() => toggle(item.id, 'isEditing')} className="rounded bg-gray-400 px-2 py-1 text-xs text-white">
                       Annuler
                     </button>
-                  </div>
+                  </form>
                 ) : (
-                  <div className="flex justify-between w-full items-center">
-                    <span className="font-semibold text-blue-900 text-sm">Vous : {item.question}</span>
-                    <div className="flex space-x-2 text-xs">
-                      <button
-                        onClick={() => toggleEdit(item.id)}
-                        className="text-gray-500 hover:text-blue-600 underline"
-                      >
+                  <div className="flex w-full items-center justify-between gap-2">
+                    <span className="text-sm font-semibold text-blue-900">Vous : {item.question}</span>
+                    <div className="flex shrink-0 gap-2 text-xs">
+                      <button onClick={() => toggle(item.id, 'isEditing')} className="text-gray-500 underline hover:text-blue-600">
                         Modifier
                       </button>
-                      <button
-                        onClick={() => toggleCollapse(item.id)}
-                        className="text-gray-500 hover:text-gray-800 underline"
-                      >
-                        {item.isCollapsed ? "Déplier" : "Réduire"}
+                      <button onClick={() => toggle(item.id, 'isCollapsed')} className="text-gray-500 underline hover:text-gray-800">
+                        {item.isCollapsed ? 'Déplier' : 'Réduire'}
                       </button>
                     </div>
                   </div>
                 )}
               </div>
 
-              {!item.isCollapsed && (
-                <div className="bg-emerald-50 p-3 rounded-md border-l-4 border-emerald-500 text-gray-800 text-sm whitespace-pre-wrap leading-relaxed">
-                  <p className="font-semibold text-emerald-900 mb-1">Assistant RAG :</p>
-                  {item.answer}
+              {!item.isCollapsed && item.error && (
+                <div className="rounded-md border-l-4 border-red-500 bg-red-50 p-3 text-sm text-red-800">{item.error}</div>
+              )}
+              {!item.isCollapsed && item.result && (
+                <div
+                  className={`rounded-md border-l-4 p-3 text-sm leading-relaxed whitespace-pre-wrap text-gray-800 ${
+                    item.result.refused ? 'border-amber-500 bg-amber-50' : 'border-emerald-500 bg-emerald-50'
+                  }`}
+                >
+                  <p className="mb-1 font-semibold text-emerald-900">
+                    {item.result.refused ? 'Hors du corpus' : 'Assistant RAG'} :
+                  </p>
+                  {item.result.answer}
+                  <SourceList result={item.result} />
+                  <Metrics result={item.result} />
                 </div>
               )}
             </div>
           ))}
 
           {loading && (
-            <div className="p-3 bg-gray-100 text-gray-500 text-sm rounded-md animate-pulse">
+            <div className="animate-pulse rounded-md bg-gray-100 p-3 text-sm text-gray-500">
               Recherche des réponses dans le document...
             </div>
           )}
-
           <div ref={chatEndRef} />
-        </div>
+        </section>
 
-        {/* Input Question */}
-        <div className="flex space-x-2 pt-2">
+        <form
+          className="flex gap-2 pt-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void sendQuestion(inputQuestion);
+          }}
+        >
           <input
             type="text"
             value={inputQuestion}
+            maxLength={500}
             onChange={(e) => setInputQuestion(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && sendQuestion(inputQuestion)}
             placeholder="Posez une question sur le contenu du PDF..."
-            className="flex-1 border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 rounded-lg border px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
           <button
-            onClick={() => sendQuestion(inputQuestion)}
+            type="submit"
             disabled={loading}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+            className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
           >
             Envoyer
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

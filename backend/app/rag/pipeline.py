@@ -213,7 +213,10 @@ class RAGPipeline:
         vecs = self.embeddings.embed_documents([c[0] for c in candidates])
         ranked = sorted(zip(candidates, (_cosine(q, v) for v in vecs), strict=True), key=lambda x: -x[1])
         lines = ["Mode extraits (sans LLM) : phrases les plus pertinentes du document."]
-        lines += [f"- {text} [p. {page}]" for (text, page), _ in ranked[:n_sentences]]
+        best = ranked[0][1]
+        # keep extra sentences only when they are almost as relevant as the best one
+        kept = [r for r in ranked[:n_sentences] if r[1] >= best - 0.08]
+        lines += [f"- {text} [p. {page}]" for (text, page), _ in kept]
         return "\n".join(lines)
 
 
