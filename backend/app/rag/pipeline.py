@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import hashlib
+import math
+import re
 import threading
 import time
 from collections.abc import Callable
@@ -164,7 +166,7 @@ class RAGPipeline:
             answer_text, refused = REFUSAL_MESSAGE, True
             sources = []
         elif self.llm is None:
-            answer_text, refused = self._extractive(hits), False
+            answer_text, refused = self._extractive(question, hits), False
         else:
             answer_text, usage = self._generate(question, [d for d, _ in hits])
             refused = REFUSAL_SENTINEL in answer_text
@@ -195,12 +197,32 @@ class RAGPipeline:
         text = msg.content if isinstance(msg.content, str) else str(msg.content)
         return text.strip(), usage_from_message(msg)
 
-    @staticmethod
-    def _extractive(hits: list[ScoredDoc]) -> str:
-        lines = ["Mode extraits (sans LLM) : passages les plus pertinents du document."]
+    def _extractive(self, question: str, hits: list[ScoredDoc], n_sentences: int = 2) -> str:
+        """No-LLM answer: the sentences of the top passages closest to the question
+        (sentence-level embedding similarity), each with its page citation."""
+        candidates: list[tuple[str, int]] = []
         for d, _ in hits[:3]:
-            text = " ".join(d.page_content.split())
-            if len(text) > 300:
-                text = text[:300].rsplit(" ", 1)[0] + "..."
-            lines.append(f"- {text} [p. {d.metadata.get('page', '?')}]")
+            lines = [ln for ln in d.page_content.splitlines() if not _HEADING.match(ln.strip())]
+            for sent in _SENTENCE_SPLIT.split(" ".join(lines)):
+                sent = " ".join(sent.split())
+                if len(sent) >= 25:
+                    candidates.append((sent, int(d.metadata.get("page", 0))))
+        if not candidates:
+            return "Mode extraits (sans LLM) :\n" + hits[0][0].page_content[:300]
+        q = self.embeddings.embed_query(question)
+        vecs = self.embeddings.embed_documents([c[0] for c in candidates])
+        ranked = sorted(zip(candidates, (_cosine(q, v) for v in vecs), strict=True), key=lambda x: -x[1])
+        lines = ["Mode extraits (sans LLM) : phrases les plus pertinentes du document."]
+        lines += [f"- {text} [p. {page}]" for (text, page), _ in ranked[:n_sentences]]
         return "\n".join(lines)
+
+
+_SENTENCE_SPLIT = re.compile(r"(?<=[.!?;])\s+")
+_HEADING = re.compile(r"^(\d+(\.\d+)*\.\s+[^.]{0,70}|Page \d+ .*)$")  # "2. Title" lines, footers
+
+
+def _cosine(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b, strict=True))
+    na = math.sqrt(sum(x * x for x in a)) or 1.0
+    nb = math.sqrt(sum(y * y for y in b)) or 1.0
+    return dot / (na * nb)
