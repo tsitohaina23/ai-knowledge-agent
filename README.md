@@ -6,8 +6,7 @@
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
-<!-- Demo: put docs/media/demo.gif here (see "Scénario de démo") -->
-<!-- ![Démo](docs/media/demo.gif) -->
+**Démo vidéo (2 min) :** [docs/media/demo.mp4](docs/media/demo.mp4)
 
 ---
 
