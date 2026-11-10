@@ -227,8 +227,7 @@ La CI GitHub Actions (`.github/workflows/ci.yml`) lance ces mêmes vérification
 3. (11-16 s) Taper **« Quelle est la capitale du Japon ? »** : encadré orange **« Hors du corpus »**.
 4. (16-20 s) Montrer `http://localhost:8000/docs` (Swagger) avec `/ingest`, `/ask`, `/health`.
 
-Fichiers à déposer dans [`docs/media/`](docs/media/) : `demo.gif` (ou `.mp4`),
-`screenshot-answer.png`, `screenshot-refusal.png`, `swagger.png`.
+La vidéo de démonstration est dans [`docs/media/demo.mp4`](docs/media/demo.mp4).
 
 ### Structure
 
